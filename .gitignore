@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.venv/
+state/
+private/
+*.log
+*.age
+*.pem
+*.key
+catalog.json
+xray.json
+*.tar.gz
+*.zip
+config.bat
+node_modules

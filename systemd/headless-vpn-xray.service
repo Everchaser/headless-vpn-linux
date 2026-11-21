@@ -1,0 +1,27 @@
+[Unit]
+Description=Headless VPN v2 unprivileged Xray generation runner
+Wants=network-online.target
+After=network-online.target happd.service
+Conflicts=happd.service
+
+[Service]
+Type=simple
+User=headless-vpn
+Group=headless-vpn
+WorkingDirectory=/opt/headless-vpn
+Environment=HOME=/var/lib/headless-vpn PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1
+UMask=0077
+ExecStartPre=/usr/bin/python3 /opt/headless-vpn/systemd/deployment.py check-runner-start
+ExecStart=/usr/bin/python3 -m headless_vpn.runner --state /var/lib/headless-vpn/state
+Restart=on-failure
+RestartSec=5s
+TimeoutStopSec=15s
+KillMode=mixed
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/headless-vpn/state
+PrivateTmp=true
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

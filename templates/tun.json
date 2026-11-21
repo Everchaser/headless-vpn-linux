@@ -1,0 +1,5 @@
+{
+  "inbounds": [{"type":"tun","tag":"tun-in","interface_name":"tun0","address":["198.18.0.1/30"],"mtu":1400,"auto_route":true,"strict_route":true}],
+  "outbounds": [{"type":"socks","tag":"proxy","server":"127.0.0.1","server_port":10818,"version":"5"}],
+  "route": {"rules":[{"action":"sniff"},{"protocol":"dns","action":"hijack-dns"}],"final":"proxy"}
+}

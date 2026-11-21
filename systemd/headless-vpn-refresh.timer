@@ -1,0 +1,11 @@
+[Unit]
+Description=Headless VPN v2 hourly subscription refresh
+
+[Timer]
+OnBootSec=10min
+OnCalendar=hourly
+RandomizedDelaySec=5min
+Unit=headless-vpn-refresh.service
+
+[Install]
+WantedBy=timers.target

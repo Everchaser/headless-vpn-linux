@@ -1,0 +1,18 @@
+[Unit]
+Description=Headless VPN v2 guarded subscription refresh (never starts upstream)
+Requisite=headless-vpn-xray.service headless-vpn.service
+After=headless-vpn-xray.service headless-vpn.service
+
+[Service]
+Type=oneshot
+User=headless-vpn
+Group=headless-vpn
+WorkingDirectory=/opt/headless-vpn
+Environment=HOME=/var/lib/headless-vpn PYTHONDONTWRITEBYTECODE=1
+UMask=0077
+ExecStart=/usr/bin/python3 /opt/headless-vpn/systemd/deployment.py refresh
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/headless-vpn/state
+PrivateTmp=true
+TimeoutStartSec=30min

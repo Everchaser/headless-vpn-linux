@@ -1,0 +1,27 @@
+[Unit]
+Description=Headless VPN v2 sing-box TUN with lifetime config snapshot
+Wants=network-online.target
+Requires=headless-vpn-xray.service
+After=network-online.target headless-vpn-xray.service happd.service
+Conflicts=happd.service
+
+[Service]
+Type=simple
+User=root
+Group=headless-vpn
+WorkingDirectory=/opt/headless-vpn
+Environment=PYTHONDONTWRITEBYTECODE=1
+UMask=0027
+RuntimeDirectory=headless-vpn-v2
+RuntimeDirectoryMode=0750
+RuntimeDirectoryPreserve=restart
+ExecStartPre=/usr/bin/python3 -I /opt/headless-vpn/systemd/deployment.py snapshot-tun
+ExecStart=/opt/headless-vpn/bin/sing-box run -c /run/headless-vpn-v2/sing-box.json --disable-color
+Restart=on-failure
+RestartSec=5s
+TimeoutStartSec=90s
+TimeoutStopSec=15s
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
